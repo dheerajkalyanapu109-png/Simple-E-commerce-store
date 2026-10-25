@@ -1,0 +1,19 @@
+{% load static %}<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Simple E-commerce Store</title><link rel="stylesheet" href="{% static 'style.css' %}"></head>
+<body>
+<header class="bar"><a class="logo" href="{% url 'list' %}">Simple E-commerce Store</a>
+<nav>
+ <a href="{% url 'list' %}">Plants</a>
+ {% if user.is_authenticated %}<a href="{% url 'orders' %}">My orders</a>
+ <form method="post" action="{% url 'logout' %}" class="inline">{% csrf_token %}<button class="link">Log out ({{ user.username }})</button></form>
+ {% else %}<a href="{% url 'login' %}">Log in</a><a href="{% url 'register' %}">Sign up</a>{% endif %}
+ <a class="cart" href="{% url 'cart' %}">Cart <b id="cart-count">{{ cart_count }}</b></a>
+</nav></header>
+<main>
+{% for m in messages %}<p class="msg {{ m.tags }}">{{ m }}</p>{% endfor %}
+{% block content %}{% endblock %}
+</main>
+<div id="toast" role="status"></div>
+<script src="{% static 'app.js' %}"></script>
+</body></html>

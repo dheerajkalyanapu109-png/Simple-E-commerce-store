@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block content %}
+<h1>Check out</h1>
+<ul class="plain">{% for i in items %}<li>{{ i.qty }} × {{ i.product.name }} — ₹{{ i.line }}</li>{% endfor %}</ul>
+<p class="price">Total ₹{{ total }}</p>
+<form method="post" class="stack">{% csrf_token %}
+ <label>Full name<input name="name" required value="{{ request.POST.name }}"></label>
+ <label>Delivery address<textarea name="address" rows="3" required>{{ request.POST.address }}</textarea></label>
+ <button>Place order</button></form>
+{% endblock %}

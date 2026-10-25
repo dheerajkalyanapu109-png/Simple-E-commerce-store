@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% block content %}
+<h1>Plants that are easy to live with</h1>
+<form class="search" method="get"><input name="q" value="{{ q }}" placeholder="Search plants" aria-label="Search plants"><button>Search</button></form>
+<div class="grid">
+{% for p in products %}
+ <article class="card">
+  <a href="{{ p.get_absolute_url }}" class="swatch" style="background:{{ p.color }}" aria-hidden="true" tabindex="-1"><span>{{ p.name|slice:":1" }}</span></a>
+  <h2><a href="{{ p.get_absolute_url }}">{{ p.name }}</a></h2>
+  <p class="price">₹{{ p.price }}</p>
+  {% if p.stock %}<form method="post" action="{% url 'cart_add' p.id %}" data-add>{% csrf_token %}<button>Add to cart</button></form>
+  {% else %}<p class="muted">Sold out</p>{% endif %}
+ </article>
+{% empty %}<p>No plants match “{{ q }}”.</p>{% endfor %}
+</div>{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% block content %}
+<h1>Your cart</h1>
+{% if items %}
+<table><tr><th>Plant</th><th>Price</th><th>Qty</th><th>Subtotal</th></tr>
+{% for i in items %}<tr>
+ <td><a href="{{ i.product.get_absolute_url }}">{{ i.product.name }}</a></td><td>₹{{ i.product.price }}</td>
+ <td><form method="post" action="{% url 'cart_update' i.product.id %}" class="row">{% csrf_token %}
+  <input type="number" name="qty" value="{{ i.qty }}" min="0" max="{{ i.product.stock }}" aria-label="Quantity"><button class="ghost">Update</button></form></td>
+ <td>₹{{ i.line }}</td></tr>{% endfor %}
+<tr class="total"><td colspan="3">Total</td><td>₹{{ total }}</td></tr></table>
+<p><a class="btn" href="{% url 'checkout' %}">Check out</a></p>
+{% else %}<p>Your cart is empty. <a href="{% url 'list' %}">Find a plant</a>.</p>{% endif %}
+{% endblock %}

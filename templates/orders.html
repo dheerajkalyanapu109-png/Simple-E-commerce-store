@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block content %}
+<h1>My orders</h1>
+{% for o in orders %}<section class="order"><h2>Order #{{ o.id }} <span class="muted">{{ o.created|date:"j M Y" }} · {{ o.status }}</span></h2>
+<ul class="plain">{% for i in o.items.all %}<li>{{ i.quantity }} × {{ i.product.name }} — ₹{{ i.line_total }}</li>{% endfor %}</ul>
+<p><b>Total ₹{{ o.total }}</b></p></section>
+{% empty %}<p>No orders yet. <a href="{% url 'list' %}">Browse plants</a>.</p>{% endfor %}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block content %}
+<div class="detail">
+ <div class="swatch big" style="background:{{ product.color }}" aria-hidden="true"><span>{{ product.name|slice:":1" }}</span></div>
+ <div>
+  <h1>{{ product.name }}</h1><p class="price">₹{{ product.price }}</p>
+  <p>{{ product.description }}</p>
+  {% if product.stock %}<p class="muted">{{ product.stock }} in stock</p>
+  <form method="post" action="{% url 'cart_add' product.id %}" data-add class="row">{% csrf_token %}
+   <input type="number" name="qty" value="1" min="1" max="{{ product.stock }}" aria-label="Quantity"><button>Add to cart</button></form>
+  {% else %}<p class="muted">Sold out</p>{% endif %}
+  <p><a href="{% url 'list' %}">Back to all plants</a></p>
+ </div></div>{% endblock %}
